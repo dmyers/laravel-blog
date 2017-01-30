@@ -10,21 +10,21 @@ class Category
 	 *
 	 * @var array
 	 */
-	public static $messages = array(
+	public static $messages = [
 		'name_available' => 'This name is already taken.',
-	);
+	];
 	
 	/**
 	 * Create Category validator.
 	 *
 	 * @return Validator
 	 */
-	public static function create(array $input, array $rules = array(), array $messages = array())
+	public static function create(array $input, array $rules = [], array $messages = [])
 	{
-		$rules = array_merge($rules, array(
+		$rules = array_merge($rules, [
 			'title' => 'required|min:1',
 			'name'  => 'name_available',
-		));
+		]);
 		
 		return \Validator::make($input, $rules, $messages);
 	}
@@ -34,13 +34,13 @@ class Category
 	 *
 	 * @return Validator
 	 */
-	public static function update(array $input, array $rules = array(), array $messages = array())
+	public static function update(array $input, array $rules = [], array $messages = [])
 	{
 		static::registerNameAvailable($post);
 		
-		$rules = array_merge($rules, array(
+		$rules = array_merge($rules, [
 			'name' => 'name_available',
-		));
+		]);
 		
 		return \Validator::make($input, $rules, $messages);
 	}

@@ -15,12 +15,12 @@ class Category
 	 * @return \Mmanos\Blog\Category
 	 * @throws Exception
 	 */
-	public static function create($title, $creator_id, array $options = array())
+	public static function create($title, $creator_id, array $options = [])
 	{
-		$category = new \Mmanos\Blog\Category(array(
+		$category = new \Mmanos\Blog\Category([
 			'title'      => $title,
 			'creator_id' => $creator_id,
-		));
+		]);
 		
 		if (!empty($options['description'])) {
 			$category->description = $options['description'];
@@ -47,7 +47,7 @@ class Category
 	 * @return void
 	 * @throws Exception
 	 */
-	public static function update(\Mmanos\Blog\Category $category, array $options = array())
+	public static function update(\Mmanos\Blog\Category $category, array $options = [])
 	{
 		if (!empty($options['title'])) {
 			$category->title = $options['title'];

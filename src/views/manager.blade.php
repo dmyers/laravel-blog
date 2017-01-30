@@ -1,28 +1,7 @@
-<?php
-Casset::add('mmanos/laravel-blog::/public/css/manager.less');
+<link rel="stylesheet" href="{{ url('css/blog/manager.css') }}">
+<link rel="stylesheet" href="{{ url('vendors/codemirror/lib/codemirror.css') }}">
 
-Casset::add('mmanos/laravel-blog::/public/libs/multieditor/multieditor.js');
-Casset::add('mmanos/laravel-blog::/public/libs/codemirror/lib/codemirror.css');
-Casset::add('mmanos/laravel-blog::/public/libs/codemirror/lib/codemirror.js');
-Casset::add('mmanos/laravel-blog::/public/libs/codemirror/mode/markdown/markdown.js');
-Casset::add('mmanos/laravel-blog::/public/libs/multieditor/drivers/codemirror.js');
-Casset::add('mmanos/laravel-blog::/public/libs/fineuploader/fineuploader.js');
-Casset::add('mmanos/laravel-blog::/public/libs/fineuploader/jquery.fineuploader.js');
-Casset::add('mmanos/laravel-blog::/public/libs/backbone/underscore.min.js');
-Casset::add('mmanos/laravel-blog::/public/libs/backbone/backbone.min.js');
-Casset::add('mmanos/laravel-blog::/public/libs/dateutil.js');
-Casset::add('mmanos/laravel-blog::/public/libs/markdown/pagedown/converter.js');
-
-Casset::add('mmanos/laravel-blog::/public/js/manager/views/app.js');
-Casset::add('mmanos/laravel-blog::/public/js/manager/views/viewpage.js');
-Casset::add('mmanos/laravel-blog::/public/js/manager/views/post.js');
-Casset::add('mmanos/laravel-blog::/public/js/manager/views/editpage.js');
-
-Casset::add('mmanos/laravel-blog::/public/js/manager/models/post.js');
-Casset::add('mmanos/laravel-blog::/public/js/manager/collections/posts.js');
-?>
-
-<div id="manager" style="display:none;">
+<div id="manager" style="display:none;" data-token="{{ csrf_token() }}">
 	<div class="navbar navbar-inverse navbar-static-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -73,7 +52,7 @@ Casset::add('mmanos/laravel-blog::/public/js/manager/collections/posts.js');
 	
 	<div id="editpage" style="display:none;">
 		<div id="editor-top">
-			<?php echo Form::text('title', '', array('id' => 'editor-title', 'class' => 'form-control', 'placeholder' => 'Enter title here')); ?>
+			<input type="text" name="title" value="" id="editor-title" class="form-control" placeholder="Enter title here">
 			
 			<div id="permalink-wrapper" class="pull-left" style="display:none;">
 				<strong>Permalink:</strong>
@@ -82,7 +61,7 @@ Casset::add('mmanos/laravel-blog::/public/js/manager/collections/posts.js');
 			</div>
 			<div id="edit-permalink-wrapper" class="pull-left" style="display:none;">
 				<strong>Permalink:</strong>
-				/<?php echo Form::text('permalink', '', array('id' => 'editor-edit-permalink')); ?>
+				/<input type="text" name="permalink" id="editor-edit-permalink">
 				<a href="javascript:void(0);" id="editor-btn-save-permalink" class="btn btn-default btn-xs">Done</a>
 				<a href="javascript:void(0);" id="editor-btn-cancel-permalink">Cancel</a>
 			</div>
@@ -106,7 +85,7 @@ Casset::add('mmanos/laravel-blog::/public/js/manager/collections/posts.js');
 				</div>
 				
 				<div id="editor">
-					<?php echo Form::textarea('content', '', array('id' => 'editor-content', 'class' => 'input-block-level')); ?>
+					<textarea name="content" id="editor-content" class="input-block-level"></textarea>
 				</div>
 			</div>
 		</div>
@@ -143,3 +122,20 @@ Casset::add('mmanos/laravel-blog::/public/js/manager/collections/posts.js');
     
     <div class="clearfix"></div>
 </script>
+
+<script src="{{ url('vendors/multieditor/multieditor.js') }}"></script>
+<script src="{{ url('vendors/codemirror/lib/codemirror.js') }}"></script>
+<script src="{{ url('vendors/codemirror/mode/markdown/markdown.js') }}"></script>
+<script src="{{ url('vendors/multieditor/drivers/codemirror.js') }}"></script>
+<script src="{{ url('vendors/fineuploader/fineuploader.js') }}"></script>
+<script src="{{ url('vendors/fineuploader/jquery.fineuploader.js') }}"></script>
+<script src="{{ url('vendors/backbone/underscore.min.js') }}"></script>
+<script src="{{ url('vendors/backbone/backbone.min.js') }}"></script>
+<script src="{{ url('vendors/dateutil.js') }}"></script>
+<script src="{{ url('vendors/markdown/pagedown/converter.js') }}"></script>
+<script src="{{ url('js/blog/manager/views/app.js') }}"></script>
+<script src="{{ url('js/blog/manager/views/viewpage.js') }}"></script>
+<script src="{{ url('js/blog/manager/views/post.js') }}"></script>
+<script src="{{ url('js/blog/manager/views/editpage.js') }}"></script>
+<script src="{{ url('js/blog/manager/models/post.js') }}"></script>
+<script src="{{ url('js/blog/manager/collections/posts.js') }}"></script>

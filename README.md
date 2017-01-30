@@ -1,7 +1,7 @@
-Blog Package for Laravel 4
+Blog Package for Laravel 5
 ==========================
 
-This package provides a simple blogging system for Laravel 4 applications.
+This package provides a simple blogging system for Laravel 5 applications.
 Some things it can do:
 
 * 

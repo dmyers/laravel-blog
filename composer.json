@@ -1,19 +1,21 @@
 {
     "name": "mmanos/laravel-blog",
-    "description": "A simple blogging system for Laravel 4.",
+    "description": "A simple blogging system for Laravel 5.",
     "keywords": ["laravel", "blog", "blog post", "blog posts", "blogging"],
     "authors": [
         {
             "name": "Mark Manos",
             "email": "mark@airpac.com"
+        },
+        {
+            "name": "Derek Myers",
+            "email": "arcticpro@gmail.com"
         }
     ],
     "require": {
-        "php": ">=5.3.0",
-        "illuminate/support": "4.x",
-        "michelf/php-markdown": "1.4.*@dev",
-        "mmanos/laravel-casset": "1.4.*",
-        "dmyers/laravel-storage": "1.0.*"
+        "php": ">=5.4.0",
+        "illuminate/support": "~5.0",
+        "michelf/php-markdown": "1.4.*@dev"
     },
     "autoload": {
         "classmap": [

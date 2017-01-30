@@ -10,25 +10,25 @@ class Post
 	 *
 	 * @var array
 	 */
-	public static $messages = array(
+	public static $messages = [
 		'name_available' => 'This name is already taken.',
-	);
+	];
 	
 	/**
 	 * Create Post validator.
 	 *
 	 * @return Validator
 	 */
-	public static function create(array $input, array $rules = array(), array $messages = array())
+	public static function create(array $input, array $rules = [], array $messages = [])
 	{
 		static::registerNameAvailable();
 		
-		$rules = array_merge($rules, array(
+		$rules = array_merge($rules, [
 			'title'     => 'required',
 			'content'   => 'required',
 			'name'      => 'name_available',
 			'published' => 'integer',
-		));
+		]);
 		
 		return \Validator::make($input, $rules, array_merge(self::$messages, $messages));
 	}
@@ -38,14 +38,14 @@ class Post
 	 *
 	 * @return Validator
 	 */
-	public static function update(\Mmanos\Blog\Post $post, array $input, array $rules = array(), array $messages = array())
+	public static function update(\Mmanos\Blog\Post $post, array $input, array $rules = [], array $messages = [])
 	{
 		static::registerNameAvailable($post);
 		
-		$rules = array_merge($rules, array(
+		$rules = array_merge($rules, [
 			'name'      => 'name_available',
 			'published' => 'integer',
-		));
+		]);
 		
 		return \Validator::make($input, $rules, array_merge(self::$messages, $messages));
 	}

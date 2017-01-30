@@ -327,7 +327,10 @@ Manager.View.Editpage = Backbone.View.extend({
 		return el.fineUploader({
 			request: {
 				endpoint: '/blogadmin/posts/qq',
-				customHeaders: { Accept: 'application/json' }
+				customHeaders: {
+					Accept: 'application/json',
+					'X-CSRF-Token': Manager.token
+				}
 			},
 			template: '<div class="qq-uploader">' +
 					'<div class="qq-upload-drop-area"><span>{dragZoneText}</span></div>' +

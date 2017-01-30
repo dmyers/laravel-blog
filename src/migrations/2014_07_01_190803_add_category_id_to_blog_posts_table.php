@@ -14,7 +14,7 @@ class AddCategoryIdToBlogPostsTable extends Migration
 		Schema::table('blog_posts', function ($table) {
 			$table->integer('category_id')->nullable()->after('creator_id');
 			
-			$table->index(array('category_id', 'deleted_at', 'created_at', 'published'), 'newest_category_blog_posts');
+			$table->index(['category_id', 'deleted_at', 'created_at', 'published'], 'newest_category_blog_posts');
 		});
 	}
 

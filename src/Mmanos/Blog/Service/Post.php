@@ -15,13 +15,13 @@ class Post
 	 * @return \Mmanos\Blog\Post
 	 * @throws Exception
 	 */
-	public static function create($content, $creator_id, array $options = array())
+	public static function create($content, $creator_id, array $options = [])
 	{
-		$post = new \Mmanos\Blog\Post(array(
+		$post = new \Mmanos\Blog\Post([
 			'content'    => $content,
 			'creator_id' => $creator_id,
 			'published'  => 1,
-		));
+		]);
 		
 		if (!empty($options['title'])) {
 			$post->title = $options['title'];
@@ -59,7 +59,7 @@ class Post
 	 * @return void
 	 * @throws Exception
 	 */
-	public static function update(\Mmanos\Blog\Post $post, array $options = array())
+	public static function update(\Mmanos\Blog\Post $post, array $options = [])
 	{
 		if (!empty($options['title'])) {
 			$post->title = $options['title'];

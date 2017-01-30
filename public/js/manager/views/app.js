@@ -160,6 +160,12 @@ Manager.View.App = Backbone.View.extend({
 $(function () {
 	$("#manager").appendTo($(document.body));
 	
+	Manager.token = $("#manager").data('token');
 	Manager.app = new Manager.View.App();
+	
+	$.ajaxSetup({
+		headers: {'X-CSRF-Token': Manager.token}
+	});
+	
 	Backbone.history.start();
 })

@@ -18,10 +18,29 @@ class BlogServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$this->package('mmanos/laravel-blog');
+		$this->app->router->group(['namespace' => 'Mmanos\Blog'], function($router) {
+			include __DIR__.'/../../routes.php';
+		});
 		
-		// Register routes.
-		include __DIR__.'/../../routes.php';
+		$this->publishes([
+			__DIR__.'/../../config/blog.php' => config_path('blog.php'),
+		]);
+		
+		$this->publishes([
+			__DIR__.'/../../migrations/' => database_path('migrations'),
+		], 'migrations');
+		
+		$this->loadViewsFrom(__DIR__.'/../../views', 'blog');
+		
+		$this->publishes([
+			__DIR__.'/../../views' => base_path('resources/views/vendor/blog'),
+		]);
+		
+		$this->publishes([
+			__DIR__.'/../../../public/libs/' => public_path('vendors'),
+			__DIR__.'/../../../public/css/' => public_path('css/blog'),
+			__DIR__.'/../../../public/js/' => public_path('js/blog'),
+		], 'public');
 	}
 
 	/**
@@ -41,7 +60,7 @@ class BlogServiceProvider extends ServiceProvider {
 	 */
 	public function provides()
 	{
-		return array();
+		return [];
 	}
 
 }

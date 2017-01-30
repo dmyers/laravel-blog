@@ -4,7 +4,7 @@ class Category extends \Eloquent
 {
 	protected $table = 'blog_categories';
 	protected $softDelete = true;
-	protected $guarded = array('id');
+	protected $guarded = ['id'];
 	
 	public function posts()
 	{

@@ -20,13 +20,11 @@ class CreateBlogCategoriesTable extends Migration
 			$table->timestamps();
 			$table->softDeletes();
 			
-			$table->index(array('deleted_at', 'created_at'), 'newest_blog_categories');
-			$table->index(array('deleted_at', 'title', 'created_at'), 'alpha_blog_categories');
-			
-			$table->index(array('creator_id', 'deleted_at', 'created_at'), 'newest_user_blog_categories');
-			$table->index(array('creator_id', 'deleted_at', 'title', 'created_at'), 'alpha_user_blog_categories');
-			
-			$table->index(array('name', 'created_at'), 'idx_name');
+			$table->index(['deleted_at', 'created_at'], 'newest_blog_categories');
+			$table->index(['deleted_at', 'title', 'created_at'], 'alpha_blog_categories');
+			$table->index(['creator_id', 'deleted_at', 'created_at'], 'newest_user_blog_categories');
+			$table->index(['creator_id', 'deleted_at', 'title', 'created_at'], 'alpha_user_blog_categories');
+			$table->index(['name', 'created_at'], 'idx_name');
 		});
 	}
 

@@ -21,9 +21,8 @@ class CreateBlogPostsTable extends Migration
 			$table->timestamps();
 			$table->softDeletes();
 			
-			$table->index(array('deleted_at', 'created_at', 'published'), 'newest_blog_posts');
-			
-			$table->index(array('name', 'created_at', 'published'), 'idx_name');
+			$table->index(['deleted_at', 'created_at', 'published'], 'newest_blog_posts');
+			$table->index(['name', 'created_at', 'published'], 'idx_name');
 		});
 	}
 	

@@ -1,4 +1,8 @@
-<?php
+<?php namespace Mmanos\Blog;
+
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Input;
+use Illuminate\Routing\Controller as BaseController;
 
 /**
  * Admin Blog Posts controller.
@@ -15,9 +19,9 @@ class AdminpostsController extends BaseController
 	public function __construct()
 	{
 		// Check for admin.
-		$fn = \Config::get('laravel-blog::is_admin');
+		$fn = \Config::get('blog.is_admin');
 		if (!$fn || !$fn()) {
-			App::abort(404);
+			abort(404);
 		}
 	}
 	
@@ -28,7 +32,7 @@ class AdminpostsController extends BaseController
 	 */
 	public function index()
 	{
-		return Mmanos\Blog\Post::query()
+		return Post::query()
 			->take(Input::get('num', 20))
 			->skip((Input::get('page', 1) - 1) * Input::get('num', 20))
 			->get()
@@ -42,18 +46,18 @@ class AdminpostsController extends BaseController
 	 */
 	public function store()
 	{
-		$validation = Mmanos\Blog\Validator\Post::create(Input::all());
+		$validation = Validator\Post::create(Input::all());
 		if ($validation->fails()) {
-			App::abort(400, $validation->errors());
+			abort(400, $validation->errors());
 		}
 		
 		$current_user_id = 0;
-		$fn = \Config::get('laravel-blog::current_user');
+		$fn = \Config::get('blog.current_user');
 		if ($fn) {
 			$current_user_id = $fn();
 		}
 		
-		$post = Mmanos\Blog\Service\Post::create(
+		$post = Service\Post::create(
 			Input::get('content'),
 			$current_user_id,
 			Input::all()
@@ -70,9 +74,9 @@ class AdminpostsController extends BaseController
 	 */
 	public function show($id)
 	{
-		$post = Mmanos\Blog\Post::find($id);
+		$post = Post::find($id);
 		if (!$post) {
-			App::abort(404);
+			abort(404);
 		}
 		
 		return $post->toArray();
@@ -86,17 +90,17 @@ class AdminpostsController extends BaseController
 	 */
 	public function update($id)
 	{
-		$post = Mmanos\Blog\Post::find($id);
+		$post = Post::find($id);
 		if (!$post) {
-			App::abort(404);
+			abort(404);
 		}
 		
-		$validation = Mmanos\Blog\Validator\Post::update($post, Input::all());
+		$validation = Validator\Post::update($post, Input::all());
 		if ($validation->fails()) {
-			App::abort(400, $validation->errors());
+			abort(400, $validation->errors());
 		}
 		
-		Mmanos\Blog\Service\Post::update($post, Input::all());
+		Service\Post::update($post, Input::all());
 		
 		return $post->toArray();
 	}
@@ -109,12 +113,12 @@ class AdminpostsController extends BaseController
 	 */
 	public function destroy($id)
 	{
-		$post = Mmanos\Blog\Post::find($id);
+		$post = Post::find($id);
 		if (!$post) {
-			App::abort(404);
+			abort(404);
 		}
 		
-		Mmanos\Blog\Service\Post::delete($post);
+		Service\Post::delete($post);
 	}
 	
 	/**
@@ -132,7 +136,7 @@ class AdminpostsController extends BaseController
 		for ($i = 0; $i < 50; $i++) {
 			$tmp_perm = ($i == 0) ? $name : $name . $i;
 			
-			$taken = Mmanos\Blog\Post::where('name', '=', $tmp_perm)->first();
+			$taken = Post::where('name', '=', $tmp_perm)->first();
 			
 			if (!$taken || $taken->id == Input::get('id')) {
 				$permalink = $tmp_perm;
@@ -140,10 +144,10 @@ class AdminpostsController extends BaseController
 			}
 		}
 		
-		return array(
+		return [
 			'permalink' => $permalink,
 			'changed'   => ($permalink !== $original),
-		);
+		];
 	}
 	
 	/**
@@ -156,30 +160,36 @@ class AdminpostsController extends BaseController
 	{
 		$input = Input::all();
 		
-		$validation = Validator::make($input, array('qqfile' => 'required'));
+		$validation = \Validator::make($input, [
+			'qqfile' => 'required'
+		]);
+		
 		if ($validation->fails()) {
-			App::abort(400, $validation->errors());
+			abort(400, $validation->errors());
 		}
 		
 		$file = array_get($input, 'qqfile');
 		$filename = md5($file->getClientOriginalName()).'.'.$file->getClientOriginalExtension();
 		$uploadpath = $file->getPathname();
-		$filepath = 'blog/images/'.$filename;
+		$storagepath = 'blog/images';
+		$filepath = $storagepath.'/'.$filename;
 		
 		try {
-			Storage::upload($uploadpath, $filepath);
-		} catch (Exception $e) {
-			App::abort(500, "Error creating image ({$e->getMessage()}).");
+			\Storage::putFileAs($storagepath, $file, $filename, 'public');
+		}
+		catch (Exception $e) {
+			abort(500, "Error creating image ({$e->getMessage()}).");
 		}
 		
 		try {
-			$url = Storage::url($filepath);
-		} catch (Exception $e) {
-			App::abort(500, "Error getting image URL ({$e->getMessage()}).");
+			$url = \Storage::url($filepath);
+		}
+		catch (Exception $e) {
+			abort(500, "Error getting image URL ({$e->getMessage()}).");
 		}
 		
-		return array(
-			'url' => $url,
-		);
+		$url = \Config::get('app.url').$url;
+		
+		return ['url' => $url];
 	}
 }
