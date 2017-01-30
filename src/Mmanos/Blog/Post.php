@@ -6,11 +6,6 @@ class Post extends \Eloquent
 	protected $softDelete = true;
 	protected $guarded = array('id');
 	
-	public function blog()
-	{
-		return $this->belongsTo('\Mmanos\Blog');
-	}
-	
 	public function setTitleAttribute($title)
 	{
 		// Strip out html tags.

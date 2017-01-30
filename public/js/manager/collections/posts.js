@@ -1,6 +1,6 @@
 Manager.Collection.Posts = Backbone.Collection.extend({
 	url   : function () {
-		return '/blogadmin/' + Manager.blog_id + '/posts';
+		return '/blogadmin/posts';
 	},
 	model : Manager.Model.Post
 });

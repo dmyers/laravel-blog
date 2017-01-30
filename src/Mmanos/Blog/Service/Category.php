@@ -8,7 +8,6 @@ class Category
 	/**
 	 * Create a new Category.
 	 *
-	 * @param \Mmanos\Blog $blog
 	 * @param string       $title
 	 * @param int|string   $creator_id
 	 * @param array        $options
@@ -16,10 +15,9 @@ class Category
 	 * @return \Mmanos\Blog\Category
 	 * @throws Exception
 	 */
-	public static function create(\Mmanos\Blog $blog, $title, $creator_id, array $options = array())
+	public static function create($title, $creator_id, array $options = array())
 	{
 		$category = new \Mmanos\Blog\Category(array(
-			'blog_id'    => $blog->id,
 			'title'      => $title,
 			'creator_id' => $creator_id,
 		));

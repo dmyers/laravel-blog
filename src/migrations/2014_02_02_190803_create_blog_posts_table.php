@@ -13,7 +13,6 @@ class CreateBlogPostsTable extends Migration
 	{
 		Schema::create('blog_posts', function ($table) {
 			$table->increments('id');
-			$table->integer('blog_id');
 			$table->string('title');
 			$table->text('content');
 			$table->string('name')->nullable();
@@ -25,11 +24,11 @@ class CreateBlogPostsTable extends Migration
 			$table->timestamps();
 			$table->softDeletes();
 			
-			$table->index(array('blog_id', 'deleted_at', 'created_at', 'published'), 'newest_blog_posts');
-			$table->index(array('blog_id', 'deleted_at', 'rating', 'created_at', 'published'), 'best_blog_posts');
-			$table->index(array('blog_id', 'deleted_at', 'num_views', 'created_at', 'published'), 'popular_blog_posts');
+			$table->index(array('deleted_at', 'created_at', 'published'), 'newest_blog_posts');
+			$table->index(array('deleted_at', 'rating', 'created_at', 'published'), 'best_blog_posts');
+			$table->index(array('deleted_at', 'num_views', 'created_at', 'published'), 'popular_blog_posts');
 			
-			$table->index(array('blog_id', 'name', 'created_at', 'published'), 'idx_name');
+			$table->index(array('name', 'created_at', 'published'), 'idx_name');
 		});
 	}
 	

@@ -1,8 +1,4 @@
 <?php
-if (empty($blog_id)) {
-	return;
-}
-
 Casset::add('mmanos/laravel-blog::/public/css/manager.less');
 
 Casset::add('mmanos/laravel-blog::/public/libs/multieditor/multieditor.js');
@@ -24,10 +20,9 @@ Casset::add('mmanos/laravel-blog::/public/js/manager/views/editpage.js');
 
 Casset::add('mmanos/laravel-blog::/public/js/manager/models/post.js');
 Casset::add('mmanos/laravel-blog::/public/js/manager/collections/posts.js');
-
 ?>
 
-<div id="manager" style="display:none;" data-blogid="<?php echo $blog_id; ?>">
+<div id="manager" style="display:none;">
 	<div class="navbar navbar-inverse navbar-static-top">
 		<div class="container-fluid">
 			<div class="navbar-header">

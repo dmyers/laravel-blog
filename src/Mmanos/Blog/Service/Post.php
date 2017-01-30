@@ -8,7 +8,6 @@ class Post
 	/**
 	 * Create a new Post.
 	 *
-	 * @param \Mmanos\Blog $blog
 	 * @param string       $content
 	 * @param int|string   $creator_id
 	 * @param array        $options
@@ -16,10 +15,9 @@ class Post
 	 * @return \Mmanos\Blog\Post
 	 * @throws Exception
 	 */
-	public static function create(\Mmanos\Blog $blog, $content, $creator_id, array $options = array())
+	public static function create($content, $creator_id, array $options = array())
 	{
 		$post = new \Mmanos\Blog\Post(array(
-			'blog_id'    => $blog->id,
 			'content'    => $content,
 			'creator_id' => $creator_id,
 			'published'  => 1,

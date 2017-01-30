@@ -160,7 +160,6 @@ Manager.View.App = Backbone.View.extend({
 $(function () {
 	$("#manager").appendTo($(document.body));
 	
-	Manager.blog_id = $("#manager").data('blogid');
 	Manager.app = new Manager.View.App();
 	Backbone.history.start();
 })

@@ -198,7 +198,7 @@ Manager.View.Editpage = Backbone.View.extend({
 		this.$('#edit-permalink-wrapper').hide();
 		
 		$.ajax({
-			url  : '/blogadmin/' + Manager.blog_id + '/posts/namecheck/' + permalink,
+			url  : '/blogadmin/posts/namecheck/' + permalink,
 			data : data,
 			dataType : 'json'
 		}).done($.proxy(function (response) {
@@ -326,7 +326,7 @@ Manager.View.Editpage = Backbone.View.extend({
 		
 		return el.fineUploader({
 			request: {
-				endpoint: '/blogadmin/' + Manager.blog_id + '/posts/qq',
+				endpoint: '/blogadmin/posts/qq',
 				customHeaders: { Accept: 'application/json' }
 			},
 			template: '<div class="qq-uploader">' +

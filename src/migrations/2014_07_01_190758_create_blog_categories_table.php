@@ -13,7 +13,6 @@ class CreateBlogCategoriesTable extends Migration
 	{
 		Schema::create('blog_categories', function ($table) {
 			$table->increments('id');
-			$table->integer('blog_id');
 			$table->string('title');
 			$table->text('description')->nullable();
 			$table->string('name')->nullable();
@@ -27,7 +26,7 @@ class CreateBlogCategoriesTable extends Migration
 			$table->index(array('creator_id', 'deleted_at', 'created_at'), 'newest_user_blog_categories');
 			$table->index(array('creator_id', 'deleted_at', 'title', 'created_at'), 'alpha_user_blog_categories');
 			
-			$table->index(array('blog_id', 'name', 'created_at'), 'idx_name');
+			$table->index(array('name', 'created_at'), 'idx_name');
 		});
 	}
 

@@ -19,7 +19,7 @@ class Category
 	 *
 	 * @return Validator
 	 */
-	public static function create(\Mmanos\Blog $blog, array $input, array $rules = array(), array $messages = array())
+	public static function create(array $input, array $rules = array(), array $messages = array())
 	{
 		$rules = array_merge($rules, array(
 			'title' => 'required|min:1',
@@ -34,9 +34,9 @@ class Category
 	 *
 	 * @return Validator
 	 */
-	public static function update(\Mmanos\Blog $blog, array $input, array $rules = array(), array $messages = array())
+	public static function update(array $input, array $rules = array(), array $messages = array())
 	{
-		static::registerNameAvailable($blog, $post);
+		static::registerNameAvailable($post);
 		
 		$rules = array_merge($rules, array(
 			'name' => 'name_available',
@@ -52,17 +52,14 @@ class Category
 	/**
 	 * Register custom rule: name_available.
 	 *
-	 * @param \Mmanos\Blog          $blog
 	 * @param \Mmanos\Blog\Category $category
 	 * 
 	 * @return void
 	 */
-	public static function registerNameAvailable(\Mmanos\Blog $blog, \Mmanos\Blog\Category $category = null)
+	public static function registerNameAvailable(\Mmanos\Blog\Category $category = null)
 	{
-		\Validator::extend('name_available', function ($attribute, $value, $parameters) use ($blog, $category) {
-			$existing = \Mmanos\Blog\Category::where('blog_id', '=', $blog->id)
-				->where('name', '=', $value)
-				->first();
+		\Validator::extend('name_available', function ($attribute, $value, $parameters) use ($category) {
+			$existing = \Mmanos\Blog\Category::where('name', '=', $value)->first();
 			
 			if (!$existing) {
 				return true;

@@ -26,14 +26,9 @@ class AdminpostsController extends BaseController
 	 *
 	 * @return Response
 	 */
-	public function index($blog_id)
+	public function index()
 	{
-		$blog = Mmanos\Blog::find($blog_id);
-		if (!$blog) {
-			App::abort(404);
-		}
-		
-		return Mmanos\Blog\Post::where('blog_id', '=', $blog->id)
+		return Mmanos\Blog\Post::query()
 			->take(Input::get('num', 20))
 			->skip((Input::get('page', 1) - 1) * Input::get('num', 20))
 			->get()
@@ -45,14 +40,9 @@ class AdminpostsController extends BaseController
 	 *
 	 * @return Response
 	 */
-	public function store($blog_id)
+	public function store()
 	{
-		$blog = Mmanos\Blog::find($blog_id);
-		if (!$blog) {
-			App::abort(404);
-		}
-		
-		$validation = Mmanos\Blog\Validator\Post::create($blog, Input::all());
+		$validation = Mmanos\Blog\Validator\Post::create(Input::all());
 		if ($validation->fails()) {
 			App::abort(400, $validation->errors());
 		}
@@ -64,7 +54,6 @@ class AdminpostsController extends BaseController
 		}
 		
 		$post = Mmanos\Blog\Service\Post::create(
-			$blog,
 			Input::get('content'),
 			$current_user_id,
 			Input::all()
@@ -79,19 +68,10 @@ class AdminpostsController extends BaseController
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function show($blog_id, $id)
+	public function show($id)
 	{
-		$blog = Mmanos\Blog::find($blog_id);
-		if (!$blog) {
-			App::abort(404);
-		}
-		
 		$post = Mmanos\Blog\Post::find($id);
 		if (!$post) {
-			App::abort(404);
-		}
-		
-		if ($post->blog_id != $blog->id) {
 			App::abort(404);
 		}
 		
@@ -104,23 +84,14 @@ class AdminpostsController extends BaseController
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function update($blog_id, $id)
+	public function update($id)
 	{
-		$blog = Mmanos\Blog::find($blog_id);
-		if (!$blog) {
-			App::abort(404);
-		}
-		
 		$post = Mmanos\Blog\Post::find($id);
 		if (!$post) {
 			App::abort(404);
 		}
 		
-		if ($post->blog_id != $blog->id) {
-			App::abort(404);
-		}
-		
-		$validation = Mmanos\Blog\Validator\Post::update($blog, $post, Input::all());
+		$validation = Mmanos\Blog\Validator\Post::update($post, Input::all());
 		if ($validation->fails()) {
 			App::abort(400, $validation->errors());
 		}
@@ -136,19 +107,10 @@ class AdminpostsController extends BaseController
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function destroy($blog_id, $id)
+	public function destroy($id)
 	{
-		$blog = Mmanos\Blog::find($blog_id);
-		if (!$blog) {
-			App::abort(404);
-		}
-		
 		$post = Mmanos\Blog\Post::find($id);
 		if (!$post) {
-			App::abort(404);
-		}
-		
-		if ($post->blog_id != $blog->id) {
 			App::abort(404);
 		}
 		
@@ -161,13 +123,8 @@ class AdminpostsController extends BaseController
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function namecheck($blog_id, $name)
+	public function namecheck($name)
 	{
-		$blog = Mmanos\Blog::find($blog_id);
-		if (!$blog) {
-			App::abort(404);
-		}
-		
 		$original  = $name;
 		$name      = Str::slug($name);
 		$permalink = null;
@@ -175,9 +132,7 @@ class AdminpostsController extends BaseController
 		for ($i = 0; $i < 50; $i++) {
 			$tmp_perm = ($i == 0) ? $name : $name . $i;
 			
-			$taken = Mmanos\Blog\Post::where('blog_id', '=', $blog->id)
-				->where('name', '=', $tmp_perm)
-				->first();
+			$taken = Mmanos\Blog\Post::where('name', '=', $tmp_perm)->first();
 			
 			if (!$taken || $taken->id == Input::get('id')) {
 				$permalink = $tmp_perm;
@@ -197,13 +152,8 @@ class AdminpostsController extends BaseController
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function qq($blog_id)
+	public function qq()
 	{
-		$blog = Mmanos\Blog::find($blog_id);
-		if (!$blog) {
-			App::abort(404);
-		}
-		
 		$input = Input::all();
 		
 		$validation = Validator::make($input, array('qqfile' => 'required'));
@@ -214,7 +164,7 @@ class AdminpostsController extends BaseController
 		$file = array_get($input, 'qqfile');
 		$filename = md5($file->getClientOriginalName()).'.'.$file->getClientOriginalExtension();
 		$uploadpath = $file->getPathname();
-		$filepath = 'blog-'.$blog_id.'/images/'.$filename;
+		$filepath = 'blog/images/'.$filename;
 		
 		try {
 			Storage::upload($uploadpath, $filepath);

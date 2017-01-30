@@ -1,6 +1,6 @@
 Manager.Model.Post = Backbone.Model.extend({
 	urlRoot : function () {
-		return '/blogadmin/' + Manager.blog_id + '/posts';
+		return '/blogadmin/posts';
 	},
 	
 	defaults : {
