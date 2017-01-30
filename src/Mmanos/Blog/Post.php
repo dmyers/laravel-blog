@@ -11,16 +11,6 @@ class Post extends \Eloquent
 		return $this->belongsTo('\Mmanos\Blog');
 	}
 	
-	public function parent()
-	{
-		return $this->belongsTo('\Mmanos\Blog\Post');
-	}
-	
-	public function children()
-	{
-		return $this->hasMany('\Mmanos\Blog\Post', 'parent_id');
-	}
-	
 	public function setTitleAttribute($title)
 	{
 		// Strip out html tags.

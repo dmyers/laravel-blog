@@ -47,13 +47,6 @@ class Post
 			$post->user_ip = $options['user_ip'];
 		}
 		
-		if (!empty($options['parent']) && $options['parent'] instanceof \Mmanos\Blog\Post) {
-			$post->parent_id = $options['parent']->id;
-		}
-		else if (!empty($options['parent_id'])) {
-			$post->parent_id = $options['parent_id'];
-		}
-		
 		if (!empty($options['category_id'])) {
 			$post->category_id = $options['category_id'];
 		}
@@ -107,9 +100,6 @@ class Post
 	 */
 	public static function delete(\Mmanos\Blog\Post $post)
 	{
-		// Delete all child posts.
-		\Mmanos\Blog\Post::where('parent_id', '=', $post->id)->delete();
-		
 		$post->delete();
 	}
 	

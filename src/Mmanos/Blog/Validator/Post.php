@@ -12,7 +12,6 @@ class Post
 	 */
 	public static $messages = array(
 		'name_available' => 'This name is already taken.',
-		'valid_parent'   => 'Invalid parent post specified.',
 	);
 	
 	/**
@@ -23,7 +22,6 @@ class Post
 	public static function create(\Mmanos\Blog $blog, array $input, array $rules = array(), array $messages = array())
 	{
 		static::registerNameAvailable($blog);
-		static::registerValidParent($blog);
 		
 		$rules = array_merge($rules, array(
 			'title'     => 'required',
@@ -31,7 +29,6 @@ class Post
 			'name'      => 'name_available',
 			'user_ip'   => 'ip',
 			'published' => 'integer',
-			'parent_id' => 'integer|valid_parent',
 		));
 		
 		return \Validator::make($input, $rules, array_merge(self::$messages, $messages));
@@ -84,29 +81,6 @@ class Post
 			}
 			
 			return false;
-		});
-	}
-	
-	/**
-	 * Register custom rule: valid_parent.
-	 *
-	 * @param \Mmanos\Blog $blog
-	 * 
-	 * @return void
-	 */
-	public static function registerValidParent(\Mmanos\Blog $blog)
-	{
-		\Validator::extend('valid_parent', function ($attribute, $value, $parameters) use ($blog) {
-			$post = \Mmanos\Blog\Post::find($value);
-			if (!$post) {
-				return false;
-			}
-			
-			if ($post->blog_id != $blog->id) {
-				return false;
-			}
-			
-			return true;
 		});
 	}
 }
