@@ -7,7 +7,6 @@ Manager.Model.Post = Backbone.Model.extend({
 		title      : '',
 		content    : '',
 		created_at : '',
-		num_views  : 0,
 		status     : ''
 	},
 	

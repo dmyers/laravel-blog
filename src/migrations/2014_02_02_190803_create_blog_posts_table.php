@@ -16,17 +16,12 @@ class CreateBlogPostsTable extends Migration
 			$table->string('title');
 			$table->text('content');
 			$table->string('name')->nullable();
-			$table->integer('num_views')->default(0);
-			$table->float('rating')->default(0);
 			$table->boolean('published')->default(1);
-			$table->string('user_ip')->nullable();
 			$table->string('creator_id');
 			$table->timestamps();
 			$table->softDeletes();
 			
 			$table->index(array('deleted_at', 'created_at', 'published'), 'newest_blog_posts');
-			$table->index(array('deleted_at', 'rating', 'created_at', 'published'), 'best_blog_posts');
-			$table->index(array('deleted_at', 'num_views', 'created_at', 'published'), 'popular_blog_posts');
 			
 			$table->index(array('name', 'created_at', 'published'), 'idx_name');
 		});

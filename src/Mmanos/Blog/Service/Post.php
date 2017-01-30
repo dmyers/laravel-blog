@@ -41,10 +41,6 @@ class Post
 			$post->published = (int) (bool) $options['published'];
 		}
 		
-		if (!empty($options['user_ip'])) {
-			$post->user_ip = $options['user_ip'];
-		}
-		
 		if (!empty($options['category_id'])) {
 			$post->category_id = $options['category_id'];
 		}
@@ -99,18 +95,5 @@ class Post
 	public static function delete(\Mmanos\Blog\Post $post)
 	{
 		$post->delete();
-	}
-	
-	/**
-	 * Increments num_views for a Post.
-	 *
-	 * @param \Mmanos\Blog\Post $post
-	 * 
-	 * @return void
-	 * @throws Exception
-	 */
-	public static function incrementNumViews(\Mmanos\Blog\Post $post)
-	{
-		$post->increment('num_views');
 	}
 }

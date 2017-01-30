@@ -130,9 +130,6 @@ Casset::add('mmanos/laravel-blog::/public/js/manager/collections/posts.js');
         <div class="date" title="<%= DateUtil.formatStr(created_at, 'shortTime') %>">
             <%= DateUtil.formatStr(created_at, 'shortDate') %>
         </div>
-        <div class="views pull-right">
-            <%= num_views %>
-        </div>
     </div>
     
     <div class="title">

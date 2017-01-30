@@ -31,15 +31,6 @@ class Post extends \Eloquent
 		$this->attributes['content'] = $content;
 	}
 	
-	public function incrementNumViews()
-	{
-		try {
-			\Blog\Service\Post::increment_num_views($this);
-		} catch (Exception $e) {}
-		
-		return $this;
-	}
-	
 	public function render()
 	{
 		return \Michelf\Markdown::defaultTransform($this->content);

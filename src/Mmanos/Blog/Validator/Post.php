@@ -27,7 +27,6 @@ class Post
 			'title'     => 'required',
 			'content'   => 'required',
 			'name'      => 'name_available',
-			'user_ip'   => 'ip',
 			'published' => 'integer',
 		));
 		
